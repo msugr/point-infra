@@ -4,7 +4,7 @@ variable "db_subnet_group" { type = string }
 variable "allowed_security_group_ids" { type = list(string) }
 variable "engine_version" {
   type    = string
-  default = "16.4"
+  default = "16.8"
 }
 variable "instance_class" {
   type    = string
