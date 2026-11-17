@@ -1,9 +1,4 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: event-service
-spec:
-  template:
-    spec:
-      nodeSelector: {}
-      tolerations: []
+- op: remove
+  path: /spec/template/spec/nodeSelector
+- op: remove
+  path: /spec/template/spec/tolerations

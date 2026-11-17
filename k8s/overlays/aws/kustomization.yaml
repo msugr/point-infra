@@ -19,8 +19,12 @@ configMapGenerator:
       - REDIS_PORT=6379
       - KAFKA_BOOTSTRAP=kafka:9092
 patches:
-  - path: event-service-patch.yaml   # nodeSelector/tolerations 제거 — Karpenter 미설치 환경
-    target: { kind: Deployment, name: event-service }
+  - target: { kind: Deployment, name: event-service }
+    patch: |-
+      - op: remove
+        path: /spec/template/spec/nodeSelector
+      - op: remove
+        path: /spec/template/spec/tolerations
 
 images:
   - name: monolith
