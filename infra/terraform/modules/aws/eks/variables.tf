@@ -13,3 +13,8 @@ variable "tags" {
   type    = map(string)
   default = {}
 }
+variable "allowed_cidrs" {
+  description = "EKS public API endpoint 접근 허용 CIDR 목록"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}

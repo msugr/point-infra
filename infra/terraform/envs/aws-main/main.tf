@@ -25,11 +25,12 @@ module "vpc" {
 }
 
 module "eks" {
-  source       = "../../modules/aws/eks"
-  cluster_name = local.cluster_name
-  vpc_id       = module.vpc.vpc_id
-  subnet_ids   = module.vpc.app_subnet_ids
-  tags         = local.tags
+  source        = "../../modules/aws/eks"
+  cluster_name  = local.cluster_name
+  vpc_id        = module.vpc.vpc_id
+  subnet_ids    = module.vpc.app_subnet_ids
+  allowed_cidrs = ["49.163.124.220/32", "183.98.203.186/32", "52.78.206.18/32"]
+  tags          = local.tags
 }
 
 module "aurora" {
