@@ -4,7 +4,7 @@ terraform {
     aws = { source = "hashicorp/aws", version = "~> 5.0" }
   }
   backend "s3" {
-    bucket       = "point-platform-tfstate-CHANGE_ME"
+    bucket       = "point-platform-tfstate-906336681755"
     key          = "envs/aws-main/terraform.tfstate"
     region       = "ap-northeast-2"
     encrypt      = true

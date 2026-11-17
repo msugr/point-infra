@@ -7,10 +7,9 @@ metadata:
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
     alb.ingress.kubernetes.io/healthcheck-path: /actuator/health/readiness
-    # alb.ingress.kubernetes.io/certificate-arn: <ACM ARN>
-    # alb.ingress.kubernetes.io/wafv2-acl-arn: <WAF ARN>
+    alb.ingress.kubernetes.io/inbound-cidrs: "49.163.124.220/32,183.98.203.186/32,52.78.206.18/32"
 spec:
   ingressClassName: alb
   rules:

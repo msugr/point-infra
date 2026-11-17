@@ -44,6 +44,21 @@ module "aurora" {
 # TODO: module "karpenter"   { source = "../../modules/aws/karpenter" }
 # TODO: module "elasticache" { source = "../../modules/aws/elasticache" }
 # TODO: module "msk"         { source = "../../modules/aws/msk" }
-# TODO: module "ecr"         { source = "../../modules/aws/ecr" }
 # TODO: module "edge"        { source = "../../modules/aws/edge" }
 # TODO: module "vpn_aws_side" — GCP HA VPN 인터페이스 IP를 변수로 받아 생성
+
+resource "aws_ecr_repository" "monolith" {
+  name                 = "monolith"
+  image_tag_mutability = "MUTABLE"
+  force_delete         = true
+  image_scanning_configuration { scan_on_push = true }
+  tags = local.tags
+}
+
+resource "aws_ecr_repository" "event_service" {
+  name                 = "event-service"
+  image_tag_mutability = "MUTABLE"
+  force_delete         = true
+  image_scanning_configuration { scan_on_push = true }
+  tags = local.tags
+}
