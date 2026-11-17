@@ -18,6 +18,10 @@ configMapGenerator:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - KAFKA_BOOTSTRAP=kafka:9092
+patches:
+  - path: event-service-patch.yaml   # nodeSelector/tolerations 제거 — Karpenter 미설치 환경
+    target: { kind: Deployment, name: event-service }
+
 images:
   - name: monolith
     newName: 906336681755.dkr.ecr.ap-northeast-2.amazonaws.com/monolith
