@@ -3,6 +3,7 @@
 # 실행: bash scripts/deploy.sh
 set -euo pipefail
 
+SLACK_WEBHOOK="${SLACK_WEBHOOK:-}"  # export SLACK_WEBHOOK=https://hooks.slack.com/... 으로 주입
 REGION="ap-northeast-2"
 ACCOUNT_ID="906336681755"
 CLUSTER_NAME="point-main-eks"
@@ -13,6 +14,17 @@ BACKEND_DIR="../point-backend"
 ARGOCD_VERSION="v2.14.0"
 
 log() { echo "[$(date '+%H:%M:%S')] $*"; }
+
+slack() {
+  local msg="$1"
+  [ -z "$SLACK_WEBHOOK" ] && return 0
+  curl -s -X POST "$SLACK_WEBHOOK" \
+    -H 'Content-type: application/json' \
+    --data "{\"text\":\"$msg\"}" > /dev/null
+}
+
+# 실패 시 Slack 알림
+trap 'slack ":x: *point-platform 배포 실패* — 단계를 확인하세요 ($(date +\"%H:%M\"))"' ERR
 
 # ── 1. Terraform bootstrap (S3 state bucket) ─────────────────────────────────
 log "1/8  Terraform bootstrap: S3 state bucket"
@@ -100,3 +112,5 @@ log "  ALB endpoint: http://${ALB_HOST}"
 log "  부하 테스트 준비 완료"
 log "  종료 시: bash scripts/off.sh"
 log "======================================================"
+
+slack ":white_check_mark: *point-platform 배포 완료* ($(date +'%H:%M'))\n• ALB: http://${ALB_HOST}\n• 허용 IP: 49.163.124.220, 183.98.203.186, 52.78.206.18\n• 종료: \`bash scripts/off.sh\`"
